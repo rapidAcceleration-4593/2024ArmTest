@@ -55,7 +55,7 @@ public class Robot extends TimedRobot {
   private static final double kIb = 0.0;
   private static final double kDb = 0.0;
   private final PIDController m_pidControllerBottom = new PIDController(kPb, kIb, kDb);
-  int countmax = 213;
+
   double m_set = 0;
 
 
@@ -119,13 +119,16 @@ public class Robot extends TimedRobot {
       intake.set(0);  
     }
 
+
     System.out.println(armangle.get());
+    if (armangle.get())
     if (armangle.get() > angle){
       m_set = -m_pidControllerDown.calculate(armangle.get(), angle);
     }
     else if(armangle.get() < angle){
       m_set = -m_pidController.calculate(armangle.get(), angle);
     }
+
     m_arm1.set(m_set);
     // System.out.println(limitSwitch.get());
     System.out.println(m_pidController.calculate(armangle.get(), angle));
