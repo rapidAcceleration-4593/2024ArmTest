@@ -50,6 +50,11 @@ public class Robot extends TimedRobot {
   private static final double kId = 0.0;
   private static final double kDd = 0.001;
   private final PIDController m_pidControllerDown = new PIDController(kPd, kId, kDd);
+
+  private static final double kPb = 0.0;
+  private static final double kIb = 0.0;
+  private static final double kDb = 0.0;
+  private final PIDController m_pidControllerBottom = new PIDController(kPb, kIb, kDb);
   int countmax = 213;
   double m_set = 0;
 
