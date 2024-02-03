@@ -51,13 +51,12 @@ public class Robot extends TimedRobot {
   private static final double kDd = 0.001;
   private final PIDController m_pidControllerDown = new PIDController(kPd, kId, kDd);
 
-  private static final double kPb = 0.0;
+  private static final double kPb = 0.00167;
   private static final double kIb = 0.0;
   private static final double kDb = 0.0;
   private final PIDController m_pidControllerBottom = new PIDController(kPb, kIb, kDb);
 
   double m_set = 0;
-
 
   
   @Override
@@ -83,14 +82,11 @@ public class Robot extends TimedRobot {
         //m_arm1.set(m_pidController.calculate(armangle.get(), ));
         angle = angle + 10;
     }
-    else if(m_stick.getBButtonPressed()) {
+    else if(m_stick.getBButtonPressed() && angle > 0) {
         angle = angle - 10;
         //m_arm1.set(-0.5);
     }
 
-    if (angle <= 0){
-      angle = 0;
-    }
 
     if (!limitSwitch.get()){
      armangle.reset();
@@ -104,9 +100,7 @@ public class Robot extends TimedRobot {
       m_shooter_top.set(0);
     }
   
-    // if (armangle.get() < 0){
-    //   armangle.reset();
-    // }
+
 
     if(m_stick.getStartButton()) { // This is the command for the intake mode
       intake.set(1);
@@ -120,9 +114,12 @@ public class Robot extends TimedRobot {
     }
 
 
-    System.out.println(armangle.get());
-    if (armangle.get())
-    if (armangle.get() > angle){
+    System.out.println("Encoder value: " + armangle.get());
+  
+    if (armangle.get() <= 30 && angle < armangle.get()){
+      m_set = -m_pidControllerBottom.calculate(armangle.get(), angle);
+    }
+    else if (armangle.get() > angle){
       m_set = -m_pidControllerDown.calculate(armangle.get(), angle);
     }
     else if(armangle.get() < angle){
@@ -131,6 +128,7 @@ public class Robot extends TimedRobot {
 
     m_arm1.set(m_set);
     // System.out.println(limitSwitch.get());
-    System.out.println(m_pidController.calculate(armangle.get(), angle));
+    System.out.println("Motor Power: " + m_set);
+    //System.out.println(m_pidController.calculate(armangle.get(), angle));
   }
 }
