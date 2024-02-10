@@ -42,13 +42,13 @@ public class Robot extends TimedRobot {
   private final DifferentialDrive m_robotDrive = new DifferentialDrive(m_rearRight, m_rearLeft);
 
   private static final double kP = 0.02;
-  private static final double kI = 0.0003;
-  private static final double kD = 0.0002;
+  private static final double kI = 0.00001;
+  private static final double kD = 0.000008;
   private final PIDController m_pidController = new PIDController(kP, kI, kD);
 
   private static final double kPd = 0.005;
-  private static final double kId = 0.0;
-  private static final double kDd = 0.0;
+  private static final double kId = 0.0005;
+  private static final double kDd = 0.00002;
   private final PIDController m_pidControllerDown = new PIDController(kPd, kId, kDd);
 
   private static final double kPb = 0.0016667;
@@ -60,7 +60,6 @@ public class Robot extends TimedRobot {
 
   double m_set = 0;
 
-  
   @Override
   public void robotInit() {
     // We need to invert one side of the drivetrain so that positive voltages
